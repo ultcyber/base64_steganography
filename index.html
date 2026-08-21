@@ -1,49 +1,89 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Base64 Steganography</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="decode.js" defer></script>
+        <script src="encode.js" defer></script>
     </head>
-    <script src="decode.js"></script>
-    <script src="encode.js"></script>
     <body>
-        <h1>Reveal secret message</h1>
-        <h2>Input text</h2>
-        <textarea id="decode_input"></textarea>
-        <h2>Base64 decoded message:</h2>
-        <textarea id="decode_base64" readonly="true"></textarea>
+        <header class="page-header">
+            <h1>Base64 Steganography</h1>
+            <p class="tagline">Hide a message in the padding bits of base64 encoded words.</p>
+        </header>
 
-        <p>
-            <button onclick="decode(
-                document.getElementById('decode_input').value, document.getElementById('decode_result'));
-                        decodeBase64(
-                document.getElementById('decode_input').value, document.getElementById('decode_base64')
-                )">
-                            Reveal
-            </button>
-        </p>
-        <p>Secret message: <div id="decode_result"></div></p>
+        <main class="layout">
 
-        <H1>Hide secret message</H1>
-        <h2>Message within which to hide the secret</h2>
-        <p>You may only use Latin characters (no double byte)</p>
-        <textarea id="carrier_message"
-            onchange="remaining(document.getElementById('secret').value, this.value, 
-            document.getElementById('remaining'))"
-        ></textarea>
+            <section class="card">
+                <h2>Reveal a secret message</h2>
 
-        <h2>Secret message</h2>
-        <input id ="secret"
-            oninput="remaining(this.value, document.getElementById('carrier_message').value,
-            document.getElementById('remaining'))"
-        />
-        <p>Characters remaining: <div id="remaining"></div></p>
+                <div class="field">
+                    <label for="decode_input">Encoded text</label>
+                    <textarea id="decode_input" class="input" rows="6" spellcheck="false"
+                        placeholder="TG9yZW1= aXBzdW0= ZG9sb3K= c2l0 YW1ldCw="></textarea>
+                </div>
 
-        <p><textarea id="hidden_message" readonly="true"></textarea></p>
-        <p><button onclick="encode(
-                    document.getElementById('carrier_message').value,
-                    document.getElementById('secret').value,
-                    document.getElementById('hidden_message')
-        )">Hide</button></p>
-        
+                <div class="actions">
+                    <button class="btn" onclick="decode(
+                        document.getElementById('decode_input').value, document.getElementById('decode_result'));
+                                decodeBase64(
+                        document.getElementById('decode_input').value, document.getElementById('decode_base64')
+                        )">
+                                    Reveal
+                    </button>
+                </div>
 
+                <div class="field">
+                    <label for="decode_base64">Base64 decoded message</label>
+                    <textarea id="decode_base64" class="input output" rows="4"
+                        readonly="true" spellcheck="false"></textarea>
+                </div>
+
+                <div class="field">
+                    <span class="label">Secret message</span>
+                    <div id="decode_result" class="result"></div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Hide a secret message</h2>
+                <p class="note">You may only use Latin characters (no double byte).</p>
+
+                <div class="field">
+                    <label for="carrier_message">Message within which to hide the secret</label>
+                    <textarea id="carrier_message" class="input" rows="6"
+                        onchange="remaining(document.getElementById('secret').value, this.value,
+                        document.getElementById('remaining'))"
+                    ></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="secret">Secret message</label>
+                    <input id ="secret" class="input" type="text"
+                        oninput="remaining(this.value, document.getElementById('carrier_message').value,
+                        document.getElementById('remaining'))"
+                    />
+                </div>
+
+                <p class="capacity">Characters remaining: <span id="remaining" class="badge"></span></p>
+
+                <div class="actions">
+                    <button class="btn" onclick="encode(
+                                document.getElementById('carrier_message').value,
+                                document.getElementById('secret').value,
+                                document.getElementById('hidden_message')
+                    )">Hide</button>
+                </div>
+
+                <div class="field">
+                    <label for="hidden_message">Encoded output</label>
+                    <textarea id="hidden_message" class="input output" rows="4"
+                        readonly="true" spellcheck="false"></textarea>
+                </div>
+            </section>
+
+        </main>
     </body>
 </html>
