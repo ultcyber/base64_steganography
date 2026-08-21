@@ -20,3 +20,7 @@ Open any webrowser console
 atob("AA==") // outputs "\u0000"
 atob("AB==") // also outputs "\u0000" (B char is not read)
 ```
+
+## Try it
+
+Hosted on Github Pages: [Base64 Steganography](https://ultcyber.github.io/base64_steganography/)
