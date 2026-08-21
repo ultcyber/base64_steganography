@@ -34,22 +34,18 @@
                     continue
                 }
                 
-                let firstEquals = base64.indexOf("=")
-                let secondEquals = base64.lastIndexOf("=")
-
-                if (firstEquals < 0) {
+                let countEquals = (base64.match(/=/g) || []).length
+                if (countEquals > 2) {
+                    throw new Error("Invalid base64 string " + base64)
+                }
+                if (countEquals == 0) {
                     continue
                 }
                 
                 let converted = convert(base64)
 
-                // Two equal chars - last four bits hide the message
-                if (firstEquals != secondEquals ) {
-                    result += converted.slice(converted.length-4)
-                }
-                else {
-                    result += converted.slice(converted.length-2)
-                }
+                // -1 to get negative number for slice
+                result += converted.slice(countEquals*2*-1)
             }
             
             var decoded = ""
